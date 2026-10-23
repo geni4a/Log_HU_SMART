@@ -13,6 +13,12 @@
   .navbar { margin-bottom: 0.5rem; }
   .navbar button { margin-right: 0.5rem; }
   .output-box { margin-top: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; background: #fafafa; }
+  .prefilled { background: #fff8d6; }
+  .smart-banner { margin: 0.75rem 0; padding: 0.75rem 1rem; border: 1px solid #c9b458; background: #fffbea; border-radius: 4px; font-size: 0.95rem; }
+  .smart-banner.error { border-color: #c0392b; background: #fdecea; }
+  .smart-banner ul { margin: 0.4rem 0; padding-left: 1.2rem; }
+  .smart-banner .stale, .smart-banner .warn { color: #8a4b00; }
+  .smart-banner .note { color: #555; margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -92,7 +98,7 @@
   <h3>Lab Values</h3>
   <p>
     <label>Hemoglobin <span class="required-asterisk">*</span></label>
-    <input type="number" step="any" id="hemoglobin" min="0" required> x10<sup>9</sup> g/L
+    <input type="number" step="any" id="hemoglobin" min="0" required> g/dL
     &ensp;
     <label>Absolute Neutrophil Count <span class="required-asterisk">*</span></label>
     <input type="number" step="any" id="neutrophil" min="0" required> x10<sup>9</sup>/L
@@ -112,7 +118,9 @@
   <p id="resultText"></p>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/fhirclient@2/build/fhir-client.js"></script>
 <script src="calculate.js"></script>
 <script src="optimize.js"></script>
+<script src="smart.js"></script>
 </body>
 </html>
