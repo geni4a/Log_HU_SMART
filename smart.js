@@ -246,12 +246,27 @@
 
   async function init() {
     const doc = root.document;
-    if (!root.FHIR || !doc.getElementById("dosingForm")) return;
+    if (!doc.getElementById("dosingForm")) return;
 
     const params = new root.URLSearchParams(root.location.search);
     const returning = params.has("state") || params.has("error");
-    const hasSession = !!root.sessionStorage.getItem("SMART_KEY");
+    let hasSession = false;
+    try { hasSession = !!root.sessionStorage.getItem("SMART_KEY"); } catch (e) { /* storage blocked */ }
+
+    // The EHR opened this page directly (index.html) instead of launch.html,
+    // so the login step never ran. Say so instead of silently doing nothing.
+    if (params.has("iss") && !returning) {
+      showMessage(doc, "This page was opened by an EHR launch, but the login step was skipped. " +
+        "The app's launch URL must point to launch.html, not index.html. You can still enter values manually.");
+      return;
+    }
     if (!returning && !hasSession) return; // opened normally: nothing to do
+
+    if (!root.FHIR) {
+      showMessage(doc, "The SMART client library did not load (it comes from cdn.jsdelivr.net), so patient data cannot be fetched. " +
+        "Check that this network allows that address. You can still enter values manually.");
+      return;
+    }
 
     if (params.has("error")) {
       showMessage(doc, "The EHR did not grant access (" + params.get("error") + "). You can still enter values manually.");
