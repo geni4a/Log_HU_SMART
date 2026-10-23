@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About - Hydroxyurea Dosing Calculator</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.5; }
+  button { padding: 0.5rem 1rem; cursor: pointer; }
+  .navbar { margin-bottom: 0.5rem; }
+  .navbar button { margin-right: 0.5rem; }
+  table.guidelines { border-collapse: collapse; width: 100%; margin: 0.75rem 0; border: 2px solid #000; }
+  table.guidelines th, table.guidelines td { border: 1px solid #000; padding: 0.6rem 0.75rem; text-align: left; vertical-align: middle; }
+  table.guidelines thead th, table.guidelines tr:first-child th { background: #fff; font-weight: bold; }
+  table.guidelines th.blank { width: 14%; }
+  table.guidelines th.rowhead { font-weight: bold; background: #fff; }
+  table.guidelines td { font-weight: normal; }
+  .note { font-size: 0.9rem; color: #555; }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a href="index.html"><button type="button">Initial Dosing Calculator</button></a>
+  <a href="dose_optimize.html"><button type="button">Dose Optimization Calculator</button></a>
+  <a href="about.html"><button type="button">About</button></a>
+</div>
+<hr>
+
+<h2>About</h2>
+
+<h3>How the calculator works</h3>
+<p><strong>Initial Dosing.</strong> The daily dose is the patient's weight multiplied by the chosen starting dose (15, 20, or 25 mg/kg/day), capped at 2000 mg/day. The tool then converts this to the selected formulation:</p>
+<ul>
+  <li><strong>Capsules:</strong> if the daily dose divides evenly into whole capsules, the same number is given every day. Otherwise the dose is rounded down to whole capsules per week and spread as evenly as possible across the days. The result also shows the weight at which the next capsule per week would be added, with its schedule.</li>
+  <li><strong>Siklos:</strong> dosed in 250 mg blocks of the scored tablet, with the same weekly spread and escalation weight.</li>
+  <li><strong>Liquid:</strong> the daily dose in mg is converted to mL using the concentration.</li>
+</ul>
+<p>If baseline labs are entered, they are checked first. If they meet the toxicity criteria below, no starting dose is calculated and the labs should be reviewed. If the absolute reticulocyte count is left at 0, it is calculated from the RBC count and reticulocyte percentage.</p>
+
+<p><strong>Dose Optimization.</strong> This calculator evaluates current lab values only, using the criteria below, and returns one recommendation.</p>
+
+<h3>Hydroxyurea Dose Adjustment Guidelines</h3>
+<table class="guidelines">
+  <tr>
+    <th class="blank"></th>
+    <th>Escalation Criteria<br>(Dose Increase)</th>
+    <th>Criteria to Adjust Dose for Weight Gain if Dose &le;2.5 mg/kg from starting dose</th>
+    <th>Toxicity Criteria (Dose hold or reduction if toxicity persists beyond 2 weeks)</th>
+  </tr>
+  <tr>
+    <th class="rowhead">Neutrophils</th>
+    <td>&gt;3.0 x 10<sup>9</sup>/L</td>
+    <td>&gt;1.5 x 10<sup>9</sup>/L</td>
+    <td>&lt;0.75 x 10<sup>9</sup>/L</td>
+  </tr>
+  <tr>
+    <th class="rowhead">Platelets</th>
+    <td>&gt;100 x 10<sup>9</sup>/L</td>
+    <td>&gt;120 x 10<sup>9</sup>/L</td>
+    <td>&lt;80 x 10<sup>9</sup>/L</td>
+  </tr>
+  <tr>
+    <th class="rowhead">Reticulocytes and Hemoglobin</th>
+    <td>ARC &gt;50 x 10<sup>9</sup>/L if Hb &gt;7 g/dL</td>
+    <td>ARC &gt;100 x 10<sup>9</sup>/L if Hb &lt;8 g/dL<br>ARC &gt;75 if Hb &gt;8 g/dL</td>
+    <td>ARC &lt;50 x 10<sup>9</sup>/L if Hb &lt;7 g/dL</td>
+  </tr>
+</table>
+<p class="note">ARC = absolute reticulocyte count; Hb = hemoglobin. Within a column, all the neutrophil, platelet, and reticulocyte/hemoglobin criteria must be met, except for toxicity, where meeting any one criterion counts. If more than one column applies, the calculator reports them in this order: escalation, then weight-gain adjustment, then toxicity; otherwise it reports that the dose is optimized.</p>
+<p class="note">The calculator evaluates lab values only. It does not check how far the dose has moved from the starting dose, or whether toxicity has persisted beyond 2 weeks; these need to be confirmed by the clinician.</p>
+
+<p class="note"><strong>Clinical decision support tool only.</strong> Always confirm recommendations with a qualified clinician.</p>
+
+<script>
+function notifyParentOfResize() {
+    if (window.parent !== window) {
+        window.parent.postMessage({ type: "hu-calculator-resize", height: document.body.scrollHeight }, "*");
+    }
+}
+window.addEventListener('load', notifyParentOfResize);
+</script>
+</body>
+</html>
